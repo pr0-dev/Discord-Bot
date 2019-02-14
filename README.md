@@ -39,10 +39,10 @@ Wenn die Konfigurationsdatei wie bei [Schritt 4](#wrench-installation) kopiert w
 | Config Key | Erklärung | Erlaubte Werttypen | Standardwert |
 | ---------- | --------- | ------------------ | ------------ |
 | `bot_token` | Der Bot Token des Discord Bots, kann [hier](https://discordapp.com/developers/) erstellt werden. | String | N/A |
-| `bot_status` | Der status der bei "spielt..." in Discord angezeigt wird. | String | "Name ist pr0gramm"
+| `bot_status` | Der Status der bei "Spielt..." in Discord angezeigt wird. | String | "Name ist pr0gramm"
 | `nsfw_in_nswfchat_only` | Deaktiviert die Vorschau von NSFW Posts in Discord Kanälen, in denen NSFW nicht aktiviert wurde. | Boolean | true |
 | `disable_nsfl_preview` | Deaktiviert die Vorschau von NSFL Posts, da diese gegen die Discord ToS verstoßen. | Boolean | true | 
-| `username` | Der pr0gramm Username, der für das anzeigen von NSFW/NSFL/NSFP benutzt wird. | String | N/A |
+| `username` | Der pr0gramm Username, der für das Anzeigen von NSFW/NSFL/NSFP benutzt wird. | String | N/A |
 | `password` | Das zum pr0gramm username zugehörige Passwort. | String | N/A |
 
 <hr>
