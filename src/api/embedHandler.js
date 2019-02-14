@@ -163,6 +163,90 @@ let commentEmbed = function(message, data){
     return embed;
 };
 
+/**
+ * Creates the user embed based on fetched data
+ *
+ * @param {*} message
+ * @param {*} data
+ * @returns
+ */
+let userEmbed = function(message, data){
+    /**
+     * Ränge:
+     *
+     * 0:  Schwuchtel
+     * 1:  Neuschwuchtel
+     * 2:  Altschwuchtel
+     * 3:  Admin
+     * 4:  Gesperrt
+     * 5:  Moderator
+     * 6:  Fliesentischbesitzer
+     * 7:  Lebende Legende
+     * 8:  Wichtler
+     * 9:  Edler Spender
+     * 10: Mittelaltschwuchtel
+     * 11: Alt-Moderator
+     * 12: Community-Helfer
+     */
+    let rang = "";
+
+    if (data.user.mark === 0)  rang = "Schwuchtel";
+    if (data.user.mark === 1)  rang = "Neuschwuchtel";
+    if (data.user.mark === 2)  rang = "Altschwuchtel";
+    if (data.user.mark === 3)  rang = "Admin";
+    if (data.user.mark === 4)  rang = "Gesperrt";
+    if (data.user.mark === 5)  rang = "Moderator";
+    if (data.user.mark === 6)  rang = "Fliesentischbesitzer";
+    if (data.user.mark === 7)  rang = "Lebende Legende";
+    if (data.user.mark === 8)  rang = "Wichtler";
+    if (data.user.mark === 9)  rang = "Edler Spender";
+    if (data.user.mark === 10) rang = "Mittelaltschwuchtel";
+    if (data.user.mark === 11) rang = "Alt-Moderator";
+    if (data.user.mark === 12) rang = "Community-Helfer";
+
+    let embed = {
+        embed: {
+            color: orange,
+            title: data.user.name,
+            url: message.content,
+            fields: [
+                {
+                    name: "Benis",
+                    value: data.user.score,
+                    inline: true
+                },
+                {
+                    name: "Rang",
+                    value: rang,
+                    inline: true
+                },
+                {
+                    name: "Registriert",
+                    value: moment.unix(data.user.registered).fromNow(),
+                    inline: true
+                },
+                {
+                    name: "Uploads",
+                    value: data.uploadCount,
+                    inline: true
+                },
+                {
+                    name: "Kommentare",
+                    value: data.commentCount,
+                    inline: true
+                },
+                {
+                    name: "Tags",
+                    value: data.tagCount,
+                    inline: true
+                }
+            ]
+        }
+    };
+
+    return embed;
+};
+
 let createEmbed = function(message, callback){
     if ((message.content).match(regexes.commentRegex)){
         let match = (regexes.commentRegex).exec(message.content);
@@ -234,6 +318,17 @@ let createEmbed = function(message, callback){
     else if ((message.content).match(regexes.userInfRegex)){
         let match = (regexes.userInfRegex).exec(message.content);
         let username = match[1];
+
+        api.getUser(username, (err, res) => {
+            if (err) return log.error(err);
+
+            let resData = res.body;
+            if (resData.error) return log.error(resData.error);
+
+            let userLayout = userEmbed(message, resData);
+
+            callback(null, userLayout);
+        });
     }
 
     else return callback(true);
