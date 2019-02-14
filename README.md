@@ -12,6 +12,14 @@ Siehe: https://discord.pr0gramm.com/
 
 <hr>
 
+## :satellite: Bot einladen
+
+<p align="center">
+[![Invite](https://i.imgur.com/MCuTS88.png)](https://discordapp.com/oauth2/authorize?client_id=545621952849510400&scope=bot&permissions=125952)
+</p>
+
+<sub>Alternativ: Selbst hosten. Anleitung unten zu finden ⏬ </sub>
+
 ## :wrench: Installation
 
 0. Terminal aufmachen und dorthin navigieren, wo man es downloaden möchte <br><br>
