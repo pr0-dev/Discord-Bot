@@ -11,6 +11,7 @@ let api = require("./pr0Api");
 
 // Utils
 let log = require("../utils/logger");
+let config = require("../utils/configHandler").getConfig();
 
 const regexes = {
     uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new)(?:(?:\/.+)?)\/(\d+)/gi,
@@ -53,8 +54,16 @@ let uploadEmbed = function(message, post){
     if (post.flags === 8) tag = "NSFP";
 
     let preview = imgUri + post.image;
-    if (tag === "NSFL") preview = path.join(".", "src", "res", "nsfl.png");
-    if (tag === "NSFW" && !message.channel.nsfw) preview = path.join(".", "src", "res", "nsfw.png");
+    
+    // @ts-ignore
+    if (tag === "NSFL" && config.bot_settings.disable_nsfl_preview){
+        preview = path.join(".", "src", "res", "nsfl.png");
+    }
+
+    // @ts-ignore
+    if (tag === "NSFW" && !message.channel.nsfw && config.bot_settings.nsfw_in_nswfchat_only){
+        preview = path.join(".", "src", "res", "nsfw.png");
+    }
 
     let embed = {
         embed: {

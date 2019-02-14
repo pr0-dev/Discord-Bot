@@ -3,7 +3,9 @@
         "bot_token": ""
     },
     "bot_settings": {
-        "bot_status": "Name ist pr0gramm"
+        "bot_status": "Name ist pr0gramm",
+        "nsfw_in_nswfchat_only": true,
+        "disable_nsfl_preview": true
     },
     "pr0api": {
         "username": "",
