@@ -5,6 +5,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Config
+config.json
+
+# Cookie file
+cookie.txt
+
+# VSCode
+.vscode/
+
 # Runtime data
 pids
 *.pid
