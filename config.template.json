@@ -1,0 +1,12 @@
+{
+    "auth": {
+        "bot_token": ""
+    },
+    "bot_settings": {
+        "bot_status": "Name ist pr0gramm"
+    },
+    "pr0api": {
+        "username": "",
+        "password": ""
+    }
+}
