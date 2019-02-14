@@ -45,12 +45,32 @@ let performRequest = function(method, endpoint, params = {}, headers = {}, formD
 // GET Requests
 
 /**
- * Get pr0gramm lofin status
+ * Get pr0gramm login status
  *
  * @param {*} callback
  */
 let getLoginStatus = function(callback){
     performRequest("GET", "https://pr0gramm.com/api/user/loggedin", {}, {}, {}, (err, res) => {
+        if (err){
+            log.error(err);
+            return callback(err);
+        } 
+        return callback(null, res);
+    });
+};
+
+/**
+ * Get post meta
+ *
+ * @param {*} postId
+ * @param {*} callback
+ */
+let getPostMeta = function(postId, callback){
+    let query = {
+        "itemId": postId
+    };
+
+    performRequest("GET", "https://pr0gramm.com/api/items/info", query, {}, {}, (err, res) => {
         if (err){
             log.error(err);
             return callback(err);
@@ -88,6 +108,9 @@ let postLogin = function(user, pass, callback){
 };
 
 module.exports = {
+    // GEGT
     getLoginStatus,
+    getPostMeta,
+    // POST
     postLogin
 };
