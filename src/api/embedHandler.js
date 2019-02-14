@@ -1,7 +1,9 @@
 "use strict";
 
+// Core Modukes
+let path = require("path");
+
 // Dependencies
-let request = require("request");
 let moment = require("moment");
 
 // API
@@ -24,6 +26,87 @@ moment.locale("de");
  * Dec: 15617326
  */
 const orange = "15617326";
+
+const imgUri = "https://img.pr0gramm.com/";
+
+/**
+ * Creates the Post embed based on fetched data
+ *
+ * @param {*} message
+ * @param {*} post
+ * @returns embed
+ */
+let uploadEmbed = function(message, post){
+    /**
+     * Filters:
+     *
+     * 1:  SFW  - Safe For Work
+     * 2:  NSFW - Not Safe For Work
+     * 4:  NSFL - Not Safe For Life
+     * 8:  NSFP - Not Safe For Public (SFW)
+     */
+    let tag = "";
+
+    if (post.flags === 1) tag = "SFW";
+    if (post.flags === 2) tag = "NSFW";
+    if (post.flags === 4) tag = "NSFL";
+    if (post.flags === 8) tag = "NSFP";
+
+    let preview = imgUri + post.image;
+    if (tag === "NSFL") preview = path.join(".", "src", "res", "nsfl.png");
+    if (tag === "NSFW" && !message.channel.nsfw) preview = path.join(".", "src", "res", "nsfw.png");
+
+    let embed = {
+        embed: {
+            color: orange,
+            title: "Link zum Hochlad",
+            url: message.content,
+            fields: [
+                {
+                    name: "Benis",
+                    value: post.up - post.down,
+                    inline: true
+                },
+                {
+                    name: "Up",
+                    value: post.up,
+                    inline: true
+                },
+                {
+                    name: "Down",
+                    value: post.down,
+                    inline: true
+                },
+                {
+                    name: "Hochgeladen",
+                    value: moment.unix(post.timestamp).fromNow(),
+                    inline: true
+                },
+                {
+                    name: "Von",
+                    value: `[${post.user}](http://pr0gramm.com/user/${post.user})`,
+                    inline: true
+                },
+                {
+                    name: "Tag",
+                    value: tag,
+                    inline: true
+                }
+            ]
+            /*
+            footer: {
+                color: "00000",
+                text: "auf pr0gramm.com"
+            }
+            */
+        },
+        files: [
+            preview
+        ]
+    };
+
+    return embed;
+};
 
 /**
  * Creates the comment embed based on fetched data
@@ -121,6 +204,31 @@ let createEmbed = function(message, callback){
     else if ((message.content).match(regexes.uploadsRegex)){
         let match = (regexes.uploadsRegex).exec(message.content);
         let postId = match[1];
+
+        api.getPost(postId, (err, res) => {
+            if (err) return log.error(err);
+
+            let resData = res.body;
+            if (resData.error) return log.error(resData.error);
+
+            let up        = resData.items[0].up;
+            let down      = resData.items[0].down;
+            let image     = resData.items[0].image;
+            let flags     = resData.items[0].flags;
+            let user      = resData.items[0].user;
+            let timestamp = resData.items[0].created;
+
+            let postLayout = uploadEmbed(message, {
+                up: up,
+                down: down,
+                image: image,
+                flags: flags,
+                user: user,
+                timestamp: timestamp
+            });
+
+            callback(null, postLayout);
+        });
     }
     
     else if ((message.content).match(regexes.userInfRegex)){
