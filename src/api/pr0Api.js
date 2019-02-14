@@ -101,6 +101,26 @@ let getPostMeta = function(postId, callback){
     });
 };
 
+/**
+ * Get user
+ *
+ * @param {*} username
+ * @param {*} callback
+ */
+let getUser = function(username, callback){
+    let query = {
+        "name": username
+    };
+
+    performRequest("GET", "https://pr0gramm.com/api/profile/info", query, {}, {}, (err, res) => {
+        if (err){
+            log.error(err);
+            return callback(err);
+        } 
+        return callback(null, res);
+    });
+};
+
 // POST Requests
 
 /**
@@ -134,6 +154,7 @@ module.exports = {
     getLoginStatus,
     getPost,
     getPostMeta,
+    getUser,
     // POST
     postLogin
 };
