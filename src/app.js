@@ -33,6 +33,7 @@ process.on("unhandledRejection", (err, promise) => {
 client.on("ready", () => {
     log.info("Bot läuft...");
     log.info(`${client.users.size} User, in ${client.channels.size} Kanälen von ${client.guilds.size} Gilden registriert`);
+    // @ts-ignore
     client.user.setActivity(config.bot_settings.bot_status);
 });
 
@@ -44,9 +45,14 @@ client.on("guildDelete", (guild) => {
     log.info(`Von Gilde gelöscht: ${guild.name} (id: ${guild.id}).`);
 });
 
-client.on("message", message => {
+client.on("message", (message) => {
     if (message.author.bot) return;
  
+    if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
+        embedHandler.createEmbed(message, (err, embed) => {
+            if (!err) message.channel.send(embed);
+        });
+    }
 });
 
 client.on("error", (err) => {
@@ -59,12 +65,14 @@ login.validSession((isValid) => {
     if (isValid) log.done("Bereits auf pr0gramm eingeloggt");
     else {
         log.warn("Noch nicht auf pr0gramm eingelogt. Versuche login...");
+        // @ts-ignore
         login.performLogin(config.pr0api.username, config.pr0api.password);
     }
 });
 
 log.info("Versuche Token login...");
 
+// @ts-ignore
 client.login(config.auth.bot_token).then(() => {
     log.done("Token login war erfolgreich!");
 }, (err) => {
