@@ -16,7 +16,7 @@ Siehe: https://discord.pr0gramm.com/
 
 [![Invite](https://i.imgur.com/MCuTS88.png)](https://discordapp.com/oauth2/authorize?client_id=545621952849510400&scope=bot&permissions=125952)
 
-<sub>Alternativ: Selbst hosten. Anleitung unten zu finden ⏬ </sub>
+<sub>Der oben verlinkte Bot ist immer die aktuellste Version dieses Repositories. Alternativ: Selbst hosten. Anleitung unten zu finden ⏬ </sub>
 
 <hr>
 
