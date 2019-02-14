@@ -29,6 +29,8 @@ let performRequest = function(method, endpoint, params = {}, headers = {}, formD
     let cookieFile;
     if (fs.existsSync(cookiePath)) cookieFile = fs.readFileSync(cookiePath);
 
+    params["flags"] = "15";
+
     headers["cache-control"] = "no-cache";
     headers["cookie"] = cookieFile;
 
@@ -51,6 +53,26 @@ let performRequest = function(method, endpoint, params = {}, headers = {}, formD
  */
 let getLoginStatus = function(callback){
     performRequest("GET", "https://pr0gramm.com/api/user/loggedin", {}, {}, {}, (err, res) => {
+        if (err){
+            log.error(err);
+            return callback(err);
+        } 
+        return callback(null, res);
+    });
+};
+
+/**
+ * Get post
+ *
+ * @param {*} postId
+ * @param {*} callback
+ */
+let getPost = function(postId, callback){
+    let query = {
+        "id": postId
+    };
+
+    performRequest("GET", "https://pr0gramm.com/api/items/get", query, {}, {}, (err, res) => {
         if (err){
             log.error(err);
             return callback(err);
@@ -110,6 +132,7 @@ let postLogin = function(user, pass, callback){
 module.exports = {
     // GEGT
     getLoginStatus,
+    getPost,
     getPostMeta,
     // POST
     postLogin
