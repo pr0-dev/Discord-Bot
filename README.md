@@ -15,7 +15,9 @@ Siehe: https://discord.pr0gramm.com/
 ## :satellite: Bot einladen
 
 <p align="center">
+
 [![Invite](https://i.imgur.com/MCuTS88.png)](https://discordapp.com/oauth2/authorize?client_id=545621952849510400&scope=bot&permissions=125952)
+
 </p>
 
 <sub>Alternativ: Selbst hosten. Anleitung unten zu finden ⏬ </sub>
