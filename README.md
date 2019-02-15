@@ -16,7 +16,8 @@ Siehe: https://discord.pr0gramm.com/
 
 [![Invite](https://i.imgur.com/MCuTS88.png)](https://discordapp.com/oauth2/authorize?client_id=545621952849510400&scope=bot&permissions=125952)
 
-<sub>Der oben verlinkte Bot ist immer die aktuellste Version dieses Repositories. Alternativ: Selbst hosten. Anleitung unten zu finden ⏬ </sub>
+<sub>Der oben verlinkte Bot ist immer die aktuellste Version dieses Repositories. Für die Authentifizierung wurde [TheShad0w](https://pr0gramm.com/user/TheShad0w)'s [nutzer-bot](https://pr0gramm.com/faq:user-status) "[Shad0wBot](https://pr0gramm.com/user/Shad0wBot)" verwendet. <br>
+Alternativ: Selber hosten. Anleitung unten zu finden ⏬ </sub>
 
 <hr>
 
