@@ -196,6 +196,8 @@ let userEmbed = function(message, data){
      * 10: Mittelaltschwuchtel
      * 11: Alt-Moderator
      * 12: Community-Helfer
+     * 13: Nutzer-Bot
+     * 14: System-Bot
      */
     let rang = "";
 
@@ -212,6 +214,8 @@ let userEmbed = function(message, data){
     if (data.user.mark === 10) rang = "Mittelaltschwuchtel";
     if (data.user.mark === 11) rang = "Alt-Moderator";
     if (data.user.mark === 12) rang = "Community-Helfer";
+    if (data.user.mark === 13) rang = "Nutzer-Bot";
+    if (data.user.mark === 14) rang = "System-Bot";
 
     let embed = {
         embed: {
