@@ -21,6 +21,12 @@ Alternativ: Selber hosten. Anleitung unten zu finden ⏬ </sub>
 
 <hr>
 
+## :diamond_shape_with_a_dot_inside: Funktionswünsche & Issues
+
+Funktionswunsch oder Fehler entdeckt? Bitte [öffne einen Issue](https://github.com/pr0-dev/Discord-Bot/issues/new/choose) hier auf GitHub.
+
+<hr>
+
 ## :wrench: Installation
 
 0. Terminal aufmachen und dorthin navigieren, wo man es downloaden möchte <br><br>
