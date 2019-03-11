@@ -54,7 +54,7 @@ let uploadEmbed = function(message, post){
     if (post.flags === 8) tag = "NSFP";
 
     let preview = imgUri + post.image;
-    
+
     // @ts-ignore
     if (tag === "NSFL" && config.bot_settings.disable_nsfl_preview){
         preview = path.join(".", "src", "res", "nsfl.png");
@@ -327,7 +327,7 @@ let createEmbed = function(message, callback){
             callback(null, postLayout);
         });
     }
-    
+
     else if ((message.content).match(regexes.userInfRegex)){
         let match = (regexes.userInfRegex).exec(message.content);
         let username = match[1];

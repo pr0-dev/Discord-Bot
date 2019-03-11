@@ -5,7 +5,8 @@
     "bot_settings": {
         "bot_status": "Name ist pr0gramm",
         "nsfw_in_nswfchat_only": true,
-        "disable_nsfl_preview": true
+        "disable_nsfl_preview": true,
+        "delete_user_message": false
     },
     "pr0api": {
         "username": "",

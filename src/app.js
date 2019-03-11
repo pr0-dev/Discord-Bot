@@ -47,10 +47,14 @@ client.on("guildDelete", (guild) => {
 
 client.on("message", (message) => {
     if (message.author.bot) return;
- 
+
     if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
         embedHandler.createEmbed(message, (err, embed) => {
-            if (!err) message.channel.send(embed);
+            if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`)
+            message.channel.send(embed);
+
+            // @ts-ignore
+            if (config.bot_settings.delete_user_message) message.delete();
         });
     }
 });
