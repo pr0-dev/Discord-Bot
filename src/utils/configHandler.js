@@ -60,10 +60,6 @@ let getName = function(){
     return packagefile.name;
 };
 
-let getAuthor = function(){
-    return packagefile.author;
-};
-
 let getDescription = function(){
     return packagefile.description;
 };
