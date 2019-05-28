@@ -50,7 +50,7 @@ client.on("message", (message) => {
 
     if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
         embedHandler.createEmbed(message, (err, embed) => {
-            if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`)
+            if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
             message.channel.send(embed);
 
             // @ts-ignore
