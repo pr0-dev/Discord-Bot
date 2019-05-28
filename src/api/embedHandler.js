@@ -261,6 +261,9 @@ let userEmbed = function(message, data){
 };
 
 let createEmbed = function(message, callback){
+    // Parse stelz link
+    message.content = message.content.replace(/\/stalk\//gi, "/new/");
+
     if ((message.content).match(regexes.commentRegex)){
         let match = (regexes.commentRegex).exec(message.content);
 
