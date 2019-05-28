@@ -60,14 +60,8 @@ let getName = function(){
     return packagefile.name;
 };
 
-let getDescription = function(){
-    return packagefile.description;
-};
-
 module.exports = {
     getConfig,
     getVersion,
     getName,
-    getAuthor,
-    getDescription
 };
