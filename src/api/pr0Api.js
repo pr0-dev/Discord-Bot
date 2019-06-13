@@ -29,6 +29,8 @@ let performRequest = function(method, endpoint, params = {}, headers = {}, formD
     let cookieFile;
     if (fs.existsSync(cookiePath)) cookieFile = fs.readFileSync(cookiePath);
 
+    /* eslint-disable dot-notation */
+
     params["flags"] = "15";
 
     headers["cache-control"] = "no-cache";
@@ -56,7 +58,7 @@ let getLoginStatus = function(callback){
         if (err){
             log.error(err);
             return callback(err);
-        } 
+        }
         return callback(null, res);
     });
 };
@@ -76,7 +78,7 @@ let getPost = function(postId, callback){
         if (err){
             log.error(err);
             return callback(err);
-        } 
+        }
         return callback(null, res);
     });
 };
@@ -96,7 +98,7 @@ let getPostMeta = function(postId, callback){
         if (err){
             log.error(err);
             return callback(err);
-        } 
+        }
         return callback(null, res);
     });
 };
@@ -116,7 +118,7 @@ let getUser = function(username, callback){
         if (err){
             log.error(err);
             return callback(err);
-        } 
+        }
         return callback(null, res);
     });
 };
@@ -144,7 +146,7 @@ let postLogin = function(user, pass, callback){
         if (err){
             log.error(err);
             return callback(err);
-        } 
+        }
         return callback(null, res);
     });
 };

@@ -14,8 +14,8 @@ let log = require("../utils/logger");
 let config = require("../utils/configHandler").getConfig();
 
 const regexes = {
-    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/uploads)(?:(?:\/.+)?)\/(\d+)/gi,
-    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/uploads)(?:(?:\/.+)?)\/(\d+)(?::)comment(\d+)/gi,
+    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/\w+)?)\/(\d+)/gi,
+    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/\w+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
     userInfRegex: /http(?:s?):\/\/pr0gramm\.com\/user\/(\w+)/gi
 };
 
@@ -261,9 +261,6 @@ let userEmbed = function(message, data){
 };
 
 let createEmbed = function(message, callback){
-    // Parse stelz link
-    message.content = message.content.replace(/\/stalk\//gi, "/new/");
-
     if ((message.content).match(regexes.commentRegex)){
         let match = (regexes.commentRegex).exec(message.content);
 
