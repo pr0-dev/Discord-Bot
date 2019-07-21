@@ -14,8 +14,8 @@ let log = require("../utils/logger");
 let config = require("../utils/configHandler").getConfig();
 
 const regexes = {
-    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/\w+)?)\/(\d+)/gi,
-    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/\w+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
+    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w%\(\)\-!]+)?)\/(\d+)/gi,
+    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w%\(\)\-!]+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
     userInfRegex: /http(?:s?):\/\/pr0gramm\.com\/user\/(\w+)/gi
 };
 
