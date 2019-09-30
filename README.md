@@ -58,6 +58,7 @@ Wenn die Konfigurationsdatei wie bei [Schritt 4](#wrench-installation) kopiert w
 | bot_settings: <br> `nsfw_in_nswfchat_only` | Deaktiviert die Vorschau von NSFW Posts in Discord Kanälen, in denen NSFW nicht aktiviert wurde. | Boolean | true |
 | bot_settings: <br> `disable_nsfl_preview` | Deaktiviert die Vorschau von NSFL Posts, da diese gegen die Discord ToS verstoßen. | Boolean | true | 
 | bot_settings: <br> `delete_user_message` | Löscht den original link des Users sodass nur das Embed bleibt. | Boolean | false |
+| bot_settings: <br> `embed_direct_links` | Legt fest, ob direkte pr0gramm Links ebenfalls eingebettet werden sollen (kann sehr noisy sein). | Boolean | false |
 | pr0api: <br> `username` | Der pr0gramm Username, der für das Anzeigen von NSFW/NSFL/NSFP benutzt wird. | String | N/A |
 | pr0api: <br> `password` | Das zum pr0gramm username zugehörige Passwort. | String | N/A |
 

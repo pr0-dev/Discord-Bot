@@ -63,6 +63,20 @@ let getLoginStatus = function(callback){
     });
 };
 
+let reverseSearch = function(search, callback){
+    let query = {
+        tags: "!p:" + search
+    };
+
+    performRequest("GET", "https://pr0gramm.com/api/items/get", query, {}, {}, (err, res) => {
+        if (err){
+            log.error(err);
+            return callback(err);
+        }
+        return callback(null, res);
+    });
+};
+
 /**
  * Get post
  *
@@ -154,6 +168,7 @@ let postLogin = function(user, pass, callback){
 module.exports = {
     // GEGT
     getLoginStatus,
+    reverseSearch,
     getPost,
     getPostMeta,
     getUser,
