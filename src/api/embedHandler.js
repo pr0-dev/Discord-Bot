@@ -14,8 +14,9 @@ let log = require("../utils/logger");
 let config = require("../utils/configHandler").getConfig();
 
 const regexes = {
-    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w%\(\)\-\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)/gi,
-    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w%\(\)\-\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
+    directsRegex: /http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\/([0-9]{1,4})\/([0-9]{1,2})\/([0-9]{1,2})\/(\w+)\.(\w+)/gi,
+    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)/gi,
+    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
     userInfRegex: /http(?:s?):\/\/pr0gramm\.com\/user\/(\w+)/gi
 };
 
@@ -55,12 +56,10 @@ let uploadEmbed = function(message, post){
 
     let preview = imgUri + post.image;
 
-    // @ts-ignore
     if (tag === "NSFL" && config.bot_settings.disable_nsfl_preview){
         preview = path.join(".", "src", "res", "nsfl.png");
     }
 
-    // @ts-ignore
     if (tag === "NSFW" && !message.channel.nsfw && config.bot_settings.nsfw_in_nswfchat_only){
         preview = path.join(".", "src", "res", "nsfw.png");
     }
@@ -261,7 +260,38 @@ let userEmbed = function(message, data){
 };
 
 let createEmbed = function(message, callback){
-    if ((message.content).match(regexes.commentRegex)){
+    if (config.bot_settings.embed_direct_links && (message.content).match(regexes.directsRegex)){
+        let query = (message.content).replace(/http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\//gi, "");
+
+        api.reverseSearch(query, (err, res) => {
+            if (err) return log.error(err);
+
+            let resData = res.body;
+            if (resData.error) return log.error(resData.error);
+
+            if (!resData.items[0]) return;
+
+            let up        = resData.items[0].up;
+            let down      = resData.items[0].down;
+            let image     = resData.items[0].image;
+            let flags     = resData.items[0].flags;
+            let user      = resData.items[0].user;
+            let timestamp = resData.items[0].created;
+
+            let postLayout = uploadEmbed(message, {
+                up: up,
+                down: down,
+                image: image,
+                flags: flags,
+                user: user,
+                timestamp: timestamp
+            });
+
+            callback(null, postLayout);
+        });
+    }
+
+    else if ((message.content).match(regexes.commentRegex)){
         let match = (regexes.commentRegex).exec(message.content);
 
         // Access Regex Groups
