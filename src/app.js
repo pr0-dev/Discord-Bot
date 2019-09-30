@@ -33,7 +33,6 @@ process.on("unhandledRejection", (err, promise) => {
 client.on("ready", () => {
     log.info("Bot läuft...");
     log.info(`${client.users.size} User, in ${client.channels.size} Kanälen von ${client.guilds.size} Gilden registriert`);
-    // @ts-ignore
     client.user.setActivity(config.bot_settings.bot_status);
 });
 
@@ -53,7 +52,6 @@ client.on("message", (message) => {
             if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
             message.channel.send(embed);
 
-            // @ts-ignore
             if (config.bot_settings.delete_user_message) message.delete();
         });
     }
@@ -69,14 +67,12 @@ login.validSession((isValid) => {
     if (isValid) log.done("Bereits auf pr0gramm eingeloggt");
     else {
         log.warn("Noch nicht auf pr0gramm eingelogt. Versuche login...");
-        // @ts-ignore
         login.performLogin(config.pr0api.username, config.pr0api.password);
     }
 });
 
 log.info("Versuche Token login...");
 
-// @ts-ignore
 client.login(config.auth.bot_token).then(() => {
     log.done("Token login war erfolgreich!");
 }, (err) => {
