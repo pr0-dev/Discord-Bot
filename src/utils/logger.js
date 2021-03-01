@@ -1,5 +1,9 @@
 "use strict";
 
+// =========================== //
+// = Copyright (c) TheShad0w = //
+// =========================== //
+
 /**
  * Formats the current time
  *

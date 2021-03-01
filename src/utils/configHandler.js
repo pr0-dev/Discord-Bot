@@ -1,5 +1,9 @@
 "use strict";
 
+// =========================== //
+// = Copyright (c) TheShad0w = //
+// =========================== //
+
 // Core Modules
 let fs = require("fs");
 let path = require("path");
@@ -13,7 +17,7 @@ const configPath = path.resolve("config.json");
 /**
  * Check if the config is valid JSON
  *
- * @param {*} obj
+ * @param {Object} obj
  * @returns {boolean} whether it is valid JSON
  */
 let validJson = function(obj){
