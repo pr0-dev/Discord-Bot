@@ -1,5 +1,11 @@
 "use strict";
 
+// =========================== //
+// = Copyright (c) TheShad0w = //
+// =========================== //
+
+/* eslint-disable consistent-return */
+
 // Core Modules
 let fs = require("fs");
 let path = require("path");
@@ -10,6 +16,12 @@ let log = require("../utils/logger");
 // API
 let api = require("./pr0Api");
 
+/**
+ * Login and stored created cookie
+ *
+ * @param {string} user
+ * @param {string} pass
+ */
 let performLogin = function(user, pass){
     api.postLogin(user, pass, (err, res) => {
         if (err || !res.body.success){
@@ -22,6 +34,11 @@ let performLogin = function(user, pass){
     });
 };
 
+/**
+ * Check if the old cookie is still valid
+ *
+ * @param {Function} callback
+ */
 let validSession = function(callback){
     api.getLoginStatus((err, res) => {
         if (err) return;

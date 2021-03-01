@@ -1,5 +1,11 @@
 "use strict";
 
+// =========================== //
+// = Copyright (c) TheShad0w = //
+// =========================== //
+
+/* eslint-disable consistent-return */
+
 // Dependencies
 let Discord = require("discord.js");
 
@@ -27,12 +33,12 @@ log.info(`Starte ${appname}...`);
 const config = conf.getConfig();
 
 process.on("unhandledRejection", (err, promise) => {
-    log.error("Unhandled rejection (promise: " + promise + ", reason: " + err + ")");
+    log.error("Unhandled rejection (promise: " + JSON.stringify(promise) + ", reason: " + err + ")");
 });
 
 client.on("ready", () => {
     log.info("Bot läuft...");
-    log.info(`${client.users.size} User, in ${client.channels.size} Kanälen von ${client.guilds.size} Gilden registriert`);
+    log.info(`${client.users.cache.size} User, in ${client.channels.cache.size} Kanälen von ${client.guilds.cache.size} Guilden`);
     client.user.setActivity(config.bot_settings.bot_status);
 });
 
@@ -48,12 +54,15 @@ client.on("message", (message) => {
     if (message.author.bot) return;
 
     if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
-        embedHandler.createEmbed(message, (err, embed) => {
-            if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
-            message.channel.send(embed);
+        embedHandler.createEmbed(
+            /** @type { import("discord.js").Message & { channel: import("discord.js").GuildChannel }} */ (message),
+            (err, embed) => {
+                if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
+                message.channel.send(embed);
 
-            if (config.bot_settings.delete_user_message) message.delete();
-        });
+                if (config.bot_settings.delete_user_message) message.delete();
+            }
+        );
     }
 });
 

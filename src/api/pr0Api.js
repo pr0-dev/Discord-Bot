@@ -1,5 +1,9 @@
 "use strict";
 
+// =========================== //
+// = Copyright (c) TheShad0w = //
+// =========================== //
+
 // Core Modules
 let fs = require("fs");
 let path = require("path");
@@ -17,11 +21,13 @@ const cookiePath = path.join("cookie.txt");
 /**
  * Performs the actual request
  *
- * @param {*} method
- * @param {*} endpoint
- * @param {*} params
- * @param {*} headers
- * @param {*} callback
+ * @param {string} method
+ * @param {string} endpoint
+ * @param {object} params
+ * @param {object} headers
+ * @param {object} formData
+ * @param {Function} callback
+ * @returns {any} callback
  */
 let performRequest = function(method, endpoint, params = {}, headers = {}, formData = {}, callback){
     let req = unirest(method, endpoint);
@@ -51,7 +57,8 @@ let performRequest = function(method, endpoint, params = {}, headers = {}, formD
 /**
  * Get pr0gramm login status
  *
- * @param {*} callback
+ * @param {Function} callback
+ * @returns {any} callback
  */
 let getLoginStatus = function(callback){
     performRequest("GET", "https://pr0gramm.com/api/user/loggedin", {}, {}, {}, (err, res) => {
@@ -63,6 +70,13 @@ let getLoginStatus = function(callback){
     });
 };
 
+/**
+ * Perform a reverse search of direct link
+ *
+ * @param {string} search
+ * @param {Function} callback
+ * @returns {any} callback
+ */
 let reverseSearch = function(search, callback){
     let query = {
         tags: "!p:" + search
@@ -80,8 +94,9 @@ let reverseSearch = function(search, callback){
 /**
  * Get post
  *
- * @param {*} postId
- * @param {*} callback
+ * @param {string} postId
+ * @param {Function} callback
+ * @returns {any} callback
  */
 let getPost = function(postId, callback){
     let query = {
@@ -100,8 +115,9 @@ let getPost = function(postId, callback){
 /**
  * Get post meta
  *
- * @param {*} postId
- * @param {*} callback
+ * @param {string} postId
+ * @param {Function} callback
+ * @returns {any} callback
  */
 let getPostMeta = function(postId, callback){
     let query = {
@@ -120,8 +136,9 @@ let getPostMeta = function(postId, callback){
 /**
  * Get user
  *
- * @param {*} username
- * @param {*} callback
+ * @param {string} username
+ * @param {Function} callback
+ * @returns {any} callback
  */
 let getUser = function(username, callback){
     let query = {
@@ -142,9 +159,10 @@ let getUser = function(username, callback){
 /**
  * login to pr0gramm.com
  *
- * @param {*} user
- * @param {*} pass
- * @param {*} callback
+ * @param {string} user
+ * @param {string} pass
+ * @param {Function} callback
+ * @returns {any} callback
  */
 let postLogin = function(user, pass, callback){
     let headers = {
