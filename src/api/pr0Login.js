@@ -30,7 +30,7 @@ let performLogin = function(user, pass){
         }
 
         log.done("pr0gramm login erfolgreich");
-        fs.writeFileSync(path.resolve("cookie.txt"), res.headers["set-cookie"][1]);
+        fs.writeFileSync(path.resolve("cookie.txt"), res.headers["set-cookie"].join());
     });
 };
 
