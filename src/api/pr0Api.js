@@ -40,7 +40,7 @@ let performRequest = function(method, endpoint, params = {}, headers = {}, formD
     params["flags"] = "15";
 
     headers["cache-control"] = "no-cache";
-    headers["cookie"] = cookieFile;
+    headers["cookie"] = String(cookieFile);
 
     req.query(params);
     req.headers(headers);
