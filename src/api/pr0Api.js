@@ -13,6 +13,7 @@ let unirest = require("unirest");
 
 // Utils
 let log = require("../utils/logger");
+let config = require("../utils/configHandler").getConfig();
 
 // Helper Functions
 
@@ -41,6 +42,7 @@ let performRequest = function(method, endpoint, params = {}, headers = {}, formD
 
     headers["cache-control"] = "no-cache";
     headers["cookie"] = String(cookieFile);
+    headers["user-agent"] = config.pr0api.user_agent || `${config.pr0api.username}/1.1 (${process.platform}; ${process.arch}) NodeJS/${process.version.substring(1)}`;
 
     req.query(params);
     req.headers(headers);
