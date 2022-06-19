@@ -39,6 +39,29 @@ const orange = 15617326;
 
 const imgUri = "https://img.pr0gramm.com/";
 
+const getRank = function(id){
+    switch (id){
+        case 0:  return "Schwuchtel";
+        case 1:  return "Neuschwuchtel";
+        case 2:  return "Altschwuchtel";
+        case 3:  return "Admin";
+        case 4:  return "Gesperrt";
+        case 5:  return "Moderator";
+        case 6:  return "Fliesentischbesitzer";
+        case 7:  return "Lebende Legende";
+        case 8:  return "Wichtler";
+        case 9:  return "Edler Spender";
+        case 10: return "Mittelaltschwuchtel";
+        case 11: return "Alt-Moderator";
+        case 12: return "Community-Helfer";
+        case 13: return "Nutzer-Bot";
+        case 14: return "System-Bot";
+        case 15: return "Alt-Helfer";
+        case 16: return "Blauschwuchtel";
+        case 17: return "Rotschwuchtel";
+    }
+};
+
 /**
  * Creates the Post embed based on fetched data
  *
@@ -46,30 +69,22 @@ const imgUri = "https://img.pr0gramm.com/";
  * @param {Object} post
  * @returns embed
  */
-let uploadEmbed = function(message, post){
-    /**
-     * Filters:
-     *
-     * 1:  SFW  - Safe For Work
-     * 2:  NSFW - Not Safe For Work
-     * 4:  NSFL - Not Safe For Life
-     * 8:  NSFP - Not Safe For Public (SFW)
-     */
+const uploadEmbed = function(message, post){
     let tag = "";
 
     if (post.flags === 1) tag = "SFW";
-    if (post.flags === 2) tag = "NSFW";
-    if (post.flags === 4) tag = "NSFL";
-    if (post.flags === 8) tag = "NSFP";
+    else if (post.flags === 2) tag = "NSFW";
+    else if (post.flags === 4) tag = "NSFL";
+    else if (post.flags === 8) tag = "NSFP";
 
     let preview = imgUri + post.image;
 
     if (tag === "NSFL" && config.bot_settings.disable_nsfl_preview){
-        preview = path.join(".", "src", "res", "nsfl.png");
+        preview = path.resolve("./src/res/nsfl.png");
     }
 
     if (tag === "NSFW" && !message.channel.nsfw && config.bot_settings.nsfw_in_nswfchat_only){
-        preview = path.join(".", "src", "res", "nsfw.png");
+        preview = path.resolve("./src/res/nsfw.png");
     }
 
     let embed = {
@@ -80,22 +95,22 @@ let uploadEmbed = function(message, post){
             fields: [
                 {
                     name: "Benis",
-                    value: post.up - post.down,
+                    value: String(post.up - post.down),
                     inline: true
                 },
                 {
                     name: "Up",
-                    value: post.up,
+                    value: String(post.up),
                     inline: true
                 },
                 {
                     name: "Down",
-                    value: post.down,
+                    value: String(post.down),
                     inline: true
                 },
                 {
                     name: "Hochgeladen",
-                    value: moment.unix(post.timestamp).fromNow(),
+                    value: String(moment.unix(post.timestamp).fromNow()),
                     inline: true
                 },
                 {
@@ -105,7 +120,7 @@ let uploadEmbed = function(message, post){
                 },
                 {
                     name: "Tag",
-                    value: tag,
+                    value: String(tag),
                     inline: true
                 }
             ]
@@ -125,7 +140,7 @@ let uploadEmbed = function(message, post){
  * @param {Object} data
  * @returns embed
  */
-let commentEmbed = function(message, data){
+const commentEmbed = function(message, data){
     let embed = {
         embed: {
             color: orange,
@@ -134,26 +149,26 @@ let commentEmbed = function(message, data){
             fields: [
                 {
                     name: "Kommentar",
-                    value: data.content
+                    value: String(data.content)
                 },
                 {
                     name: "Benis",
-                    value: data.up - data.down,
+                    value: String(data.up - data.down),
                     inline: true
                 },
                 {
                     name: "Up",
-                    value: data.up,
+                    value: String(data.up),
                     inline: true
                 },
                 {
                     name: "Down",
-                    value: data.down,
+                    value: String(data.down),
                     inline: true
                 },
                 {
                     name: "Kommentiert",
-                    value: moment.unix(data.timestamp).fromNow(),
+                    value: String(moment.unix(data.timestamp).fromNow()),
                     inline: true
                 },
                 {
@@ -180,48 +195,7 @@ let commentEmbed = function(message, data){
  * @param {Object} data
  * @returns
  */
-let userEmbed = function(message, data){
-    /**
-     * Ränge:
-     *
-     * 0:  Schwuchtel
-     * 1:  Neuschwuchtel
-     * 2:  Altschwuchtel
-     * 3:  Admin
-     * 4:  Gesperrt
-     * 5:  Moderator
-     * 6:  Fliesentischbesitzer
-     * 7:  Lebende Legende
-     * 8:  Wichtler
-     * 9:  Edler Spender
-     * 10: Mittelaltschwuchtel
-     * 11: Alt-Moderator
-     * 12: Community-Helfer
-     * 13: Nutzer-Bot
-     * 14: System-Bot
-     * 15: Alt-Helfer
-     */
-    let rang = "";
-
-    if (data.user.mark === 0)  rang = "Schwuchtel";
-    if (data.user.mark === 1)  rang = "Neuschwuchtel";
-    if (data.user.mark === 2)  rang = "Altschwuchtel";
-    if (data.user.mark === 3)  rang = "Admin";
-    if (data.user.mark === 4)  rang = "Gesperrt";
-    if (data.user.mark === 5)  rang = "Moderator";
-    if (data.user.mark === 6)  rang = "Fliesentischbesitzer";
-    if (data.user.mark === 7)  rang = "Lebende Legende";
-    if (data.user.mark === 8)  rang = "Wichtler";
-    if (data.user.mark === 9)  rang = "Edler Spender";
-    if (data.user.mark === 10) rang = "Mittelaltschwuchtel";
-    if (data.user.mark === 11) rang = "Alt-Moderator";
-    if (data.user.mark === 12) rang = "Community-Helfer";
-    if (data.user.mark === 13) rang = "Nutzer-Bot";
-    if (data.user.mark === 14) rang = "System-Bot";
-    if (data.user.mark === 15) rang = "Alt-Helfer";
-    if (data.user.mark === 16) rang = "Blauschwuchtel";
-    if (data.user.mark === 17) rang = "Rotschwuchtel";
-
+const userEmbed = function(message, data){
     let embed = {
         embed: {
             color: orange,
@@ -230,32 +204,32 @@ let userEmbed = function(message, data){
             fields: [
                 {
                     name: "Benis",
-                    value: data.user.score,
+                    value: String(data.user.score),
                     inline: true
                 },
                 {
                     name: "Rang",
-                    value: rang,
+                    value: getRank(data.user.mark),
                     inline: true
                 },
                 {
                     name: "Registriert",
-                    value: moment.unix(data.user.registered).fromNow(),
+                    value: String(moment.unix(data.user.registered).fromNow()),
                     inline: true
                 },
                 {
                     name: "Uploads",
-                    value: data.uploadCount,
+                    value: String(data.uploadCount),
                     inline: true
                 },
                 {
                     name: "Kommentare",
-                    value: data.commentCount,
+                    value: String(data.commentCount),
                     inline: true
                 },
                 {
                     name: "Tags",
-                    value: data.tagCount,
+                    value: String(data.tagCount),
                     inline: true
                 }
             ]
@@ -272,7 +246,7 @@ let userEmbed = function(message, data){
  * @param {Function} callback
  * @returns
  */
-let createEmbed = function(message, callback){
+const createEmbed = function(message, callback){
     if (config.bot_settings.embed_direct_links && (message.content).match(regexes.directsRegex)){
         let query = (message.content).replace(/http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\//gi, "");
 
@@ -308,8 +282,10 @@ let createEmbed = function(message, callback){
         let match = (regexes.commentRegex).exec(message.content);
 
         // Access Regex Groups
-        let postId = match[1];
-        let commentId = match[2];
+        let postId = match?.[1];
+        let commentId = match?.[2];
+
+        if (!postId) return null;
 
         api.getPostMeta(postId, (err, res) => {
             if (err) return log.error(err);
@@ -343,7 +319,9 @@ let createEmbed = function(message, callback){
 
     else if ((message.content).match(regexes.uploadsRegex)){
         let match = (regexes.uploadsRegex).exec(message.content);
-        let postId = match[1];
+        let postId = match?.[1];
+
+        if (!postId) return null;
 
         api.getPost(postId, (err, res) => {
             if (err) return log.error(err);
@@ -373,7 +351,9 @@ let createEmbed = function(message, callback){
 
     else if ((message.content).match(regexes.userInfRegex)){
         let match = (regexes.userInfRegex).exec(message.content);
-        let username = match[1];
+        let username = match?.[1];
+
+        if (!username) return null;
 
         api.getUser(username, (err, res) => {
             if (err) return log.error(err);

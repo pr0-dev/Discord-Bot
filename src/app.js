@@ -7,7 +7,7 @@
 /* eslint-disable consistent-return */
 
 // Dependencies
-let Discord = require("discord.js");
+let { Client, Intents } = require("discord.js");
 
 // API
 let embedHandler = require("./api/embedHandler");
@@ -17,7 +17,8 @@ let login = require("./api/pr0Login");
 let conf = require("./utils/configHandler");
 let log = require("./utils/logger");
 
-const client = new Discord.Client();
+const intents = new Intents(33281); // @ts-ignore
+const client = new Client({ intents });
 
 let appname = conf.getName();
 let version = conf.getVersion();
@@ -38,37 +39,35 @@ process.on("unhandledRejection", (err, promise) => {
 
 client.on("ready", () => {
     log.info("Bot läuft...");
-    log.info(`${client.users.cache.size} User, in ${client.channels.cache.size} Kanälen von ${client.guilds.cache.size} Guilden`);
-    client.user.setActivity(config.bot_settings.bot_status);
+    client.user?.setActivity(config.bot_settings.bot_status);
 });
 
-client.on("guildCreate", (guild) => {
-    log.info(`Neuer Gilde beigetreten: ${guild.name} (id: ${guild.id}) mit ${guild.memberCount} mitgliedern`);
-});
-
-client.on("guildDelete", (guild) => {
-    log.info(`Von Gilde gelöscht: ${guild.name} (id: ${guild.id}).`);
-});
-
-client.on("message", (message) => {
+client.on("messageCreate", (message) => {
     if (message.author.bot) return;
 
     if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
+
+        message.channel.sendTyping();
         embedHandler.createEmbed(
             /** @type { import("discord.js").Message & { channel: import("discord.js").GuildChannel }} */ (message),
-            (err, embed) => {
+            (err, { embed, files }) => {
                 if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
-                message.channel.send(embed);
 
-                if (config.bot_settings.delete_user_message) message.delete();
+                message.channel.send({ embeds: [embed], files }).catch(err => {
+                    log.error(`Konnte Embed nicht erstellen: ${err}`);
+
+                    if (String(err).toLowerCase().includes("request entity too large")){
+                        message.channel.send("Bild/Video zu groß :^(").catch();
+                    }
+                });
+
+                if (config.bot_settings.delete_user_message) message.delete().catch();
             }
         );
     }
 });
 
-client.on("error", (err) => {
-    log.error(err);
-});
+client.on("error", (err) => log.error(err));
 
 log.info("Validiere pr0gramm session...");
 
