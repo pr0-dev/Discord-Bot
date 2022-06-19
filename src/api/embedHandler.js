@@ -7,17 +7,17 @@
 /* eslint-disable consistent-return */
 
 // Core Modukes
-let path = require("path");
+const path = require("path");
 
 // Dependencies
-let moment = require("moment");
+const moment = require("moment");
 
 // API
-let api = require("./pr0Api");
+const api = require("./pr0Api");
 
 // Utils
-let log = require("../utils/logger");
-let config = require("../utils/configHandler").getConfig();
+const log = require("../utils/logger");
+const config = require("../utils/configHandler").getConfig();
 
 const regexes = {
     directsRegex: /http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\/([0-9]{1,4})\/([0-9]{1,2})\/([0-9]{1,2})\/(\w+)\.(\w+)/gi,
@@ -59,6 +59,7 @@ const getRank = function(id){
         case 15: return "Alt-Helfer";
         case 16: return "Blauschwuchtel";
         case 17: return "Rotschwuchtel";
+        default: return "Unbekannt";
     }
 };
 
@@ -83,11 +84,12 @@ const uploadEmbed = function(message, post){
         preview = path.resolve("./src/res/nsfl.png");
     }
 
+    // @ts-ignore
     if (tag === "NSFW" && !message.channel.nsfw && config.bot_settings.nsfw_in_nswfchat_only){
         preview = path.resolve("./src/res/nsfw.png");
     }
 
-    let embed = {
+    const embed = {
         embed: {
             color: orange,
             title: "Link zum Hochlad",
@@ -141,7 +143,7 @@ const uploadEmbed = function(message, post){
  * @returns embed
  */
 const commentEmbed = function(message, data){
-    let embed = {
+    const embed = {
         embed: {
             color: orange,
             title: "Link zum Comment",
@@ -196,7 +198,7 @@ const commentEmbed = function(message, data){
  * @returns
  */
 const userEmbed = function(message, data){
-    let embed = {
+    const embed = {
         embed: {
             color: orange,
             title: data.user.name,
@@ -248,30 +250,30 @@ const userEmbed = function(message, data){
  */
 const createEmbed = function(message, callback){
     if (config.bot_settings.embed_direct_links && (message.content).match(regexes.directsRegex)){
-        let query = (message.content).replace(/http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\//gi, "");
+        const query = (message.content).replace(/http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\//gi, "");
 
         api.reverseSearch(query, (err, res) => {
             if (err) return log.error(err);
 
-            let resData = res.body;
+            const resData = res.body;
             if (resData.error) return log.error(resData.error);
 
             if (!resData.items[0]) return null;
 
-            let up        = resData.items[0].up;
-            let down      = resData.items[0].down;
-            let image     = resData.items[0].image;
-            let flags     = resData.items[0].flags;
-            let user      = resData.items[0].user;
-            let timestamp = resData.items[0].created;
+            const {up} = resData.items[0];
+            const {down} = resData.items[0];
+            const {image} = resData.items[0];
+            const {flags} = resData.items[0];
+            const {user} = resData.items[0];
+            const timestamp = resData.items[0].created;
 
-            let postLayout = uploadEmbed(message, {
-                up: up,
-                down: down,
-                image: image,
-                flags: flags,
-                user: user,
-                timestamp: timestamp
+            const postLayout = uploadEmbed(message, {
+                up,
+                down,
+                image,
+                flags,
+                user,
+                timestamp
             });
 
             return callback(null, postLayout);
@@ -279,36 +281,36 @@ const createEmbed = function(message, callback){
     }
 
     else if ((message.content).match(regexes.commentRegex)){
-        let match = (regexes.commentRegex).exec(message.content);
+        const match = (regexes.commentRegex).exec(message.content);
 
         // Access Regex Groups
-        let postId = match?.[1];
-        let commentId = match?.[2];
+        const postId = match?.[1];
+        const commentId = match?.[2];
 
         if (!postId) return null;
 
         api.getPostMeta(postId, (err, res) => {
             if (err) return log.error(err);
 
-            let resData = res.body;
+            const resData = res.body;
             if (resData.error) return log.error(resData.error);
 
-            let comments = resData.comments;
+            const {comments} = resData;
 
-            for (let comment of comments){
+            for (const comment of comments){
                 if (Number(comment.id) === Number(commentId)){
-                    let content   = comment.content;
-                    let up        = comment.up;
-                    let down      = comment.down;
-                    let name      = comment.name;
-                    let timestamp = comment.created;
+                    const {content} = comment;
+                    const {up} = comment;
+                    const {down} = comment;
+                    const {name} = comment;
+                    const timestamp = comment.created;
 
-                    let embedLayout = commentEmbed(message, {
-                        content: content,
-                        up: up,
-                        down: down,
-                        name: name,
-                        timestamp: timestamp
+                    const embedLayout = commentEmbed(message, {
+                        content,
+                        up,
+                        down,
+                        name,
+                        timestamp
                     });
 
                     callback(null, embedLayout);
@@ -318,31 +320,31 @@ const createEmbed = function(message, callback){
     }
 
     else if ((message.content).match(regexes.uploadsRegex)){
-        let match = (regexes.uploadsRegex).exec(message.content);
-        let postId = match?.[1];
+        const match = (regexes.uploadsRegex).exec(message.content);
+        const postId = match?.[1];
 
         if (!postId) return null;
 
         api.getPost(postId, (err, res) => {
             if (err) return log.error(err);
 
-            let resData = res.body;
+            const resData = res.body;
             if (resData.error) return log.error(resData.error);
 
-            let up        = resData.items[0].up;
-            let down      = resData.items[0].down;
-            let image     = resData.items[0].image;
-            let flags     = resData.items[0].flags;
-            let user      = resData.items[0].user;
-            let timestamp = resData.items[0].created;
+            const {up} = resData.items[0];
+            const {down} = resData.items[0];
+            const {image} = resData.items[0];
+            const {flags} = resData.items[0];
+            const {user} = resData.items[0];
+            const timestamp = resData.items[0].created;
 
-            let postLayout = uploadEmbed(message, {
-                up: up,
-                down: down,
-                image: image,
-                flags: flags,
-                user: user,
-                timestamp: timestamp
+            const postLayout = uploadEmbed(message, {
+                up,
+                down,
+                image,
+                flags,
+                user,
+                timestamp
             });
 
             callback(null, postLayout);
@@ -350,18 +352,18 @@ const createEmbed = function(message, callback){
     }
 
     else if ((message.content).match(regexes.userInfRegex)){
-        let match = (regexes.userInfRegex).exec(message.content);
-        let username = match?.[1];
+        const match = (regexes.userInfRegex).exec(message.content);
+        const username = match?.[1];
 
         if (!username) return null;
 
         api.getUser(username, (err, res) => {
             if (err) return log.error(err);
 
-            let resData = res.body;
+            const resData = res.body;
             if (resData.error) return log.error(resData.error);
 
-            let userLayout = userEmbed(message, resData);
+            const userLayout = userEmbed(message, resData);
 
             callback(null, userLayout);
         });

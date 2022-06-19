@@ -7,21 +7,21 @@
 /* eslint-disable consistent-return */
 
 // Dependencies
-let { Client, Intents } = require("discord.js");
+const { Client, Intents } = require("discord.js");
 
 // API
-let embedHandler = require("./api/embedHandler");
-let login = require("./api/pr0Login");
+const embedHandler = require("./api/embedHandler");
+const login = require("./api/pr0Login");
 
 // Utils
-let conf = require("./utils/configHandler");
-let log = require("./utils/logger");
+const conf = require("./utils/configHandler");
+const log = require("./utils/logger");
 
 const intents = new Intents(33281); // @ts-ignore
 const client = new Client({ intents });
 
-let appname = conf.getName();
-let version = conf.getVersion();
+const appname = conf.getName();
+const version = conf.getVersion();
 
 console.log(
     "\n" +
@@ -46,17 +46,16 @@ client.on("messageCreate", (message) => {
     if (message.author.bot) return;
 
     if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
-
         message.channel.sendTyping();
         embedHandler.createEmbed(
             /** @type { import("discord.js").Message & { channel: import("discord.js").GuildChannel }} */ (message),
             (err, { embed, files }) => {
                 if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
 
-                message.channel.send({ embeds: [embed], files }).catch(err => {
-                    log.error(`Konnte Embed nicht erstellen: ${err}`);
+                message.channel.send({ embeds: [embed], files }).catch(error => {
+                    log.error(`Konnte Embed nicht erstellen: ${error}`);
 
-                    if (String(err).toLowerCase().includes("request entity too large")){
+                    if (String(error).toLowerCase().includes("request entity too large")){
                         message.channel.send("Bild/Video zu groß :^(").catch();
                     }
                 });

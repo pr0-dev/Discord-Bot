@@ -7,14 +7,14 @@
 /* eslint-disable consistent-return */
 
 // Core Modules
-let fs = require("fs");
-let path = require("path");
+const fs = require("fs");
+const path = require("path");
 
 // Utils
-let log = require("../utils/logger");
+const log = require("../utils/logger");
 
 // API
-let api = require("./pr0Api");
+const api = require("./pr0Api");
 
 /**
  * Login and stored created cookie
@@ -22,7 +22,7 @@ let api = require("./pr0Api");
  * @param {string} user
  * @param {string} pass
  */
-let performLogin = function(user, pass){
+const performLogin = function(user, pass){
     api.postLogin(user, pass, (err, res) => {
         if (err || !res.body.success){
             log.error("pr0gramm Logindaten inkorrekt");
@@ -39,7 +39,7 @@ let performLogin = function(user, pass){
  *
  * @param {Function} callback
  */
-let validSession = function(callback){
+const validSession = function(callback){
     api.getLoginStatus((err, res) => {
         if (err) return;
         if (res.body.loggedIn) return callback(true);
