@@ -1,0 +1,14 @@
+{
+    "apps": [
+        {
+            "name": "pr0embed",
+            "cwd": "./",
+            "script": "src/app.js",
+            "exec_mode": "fork",
+            "instances": 1,
+            "env": { "NODE_ENV": "production" },
+            "repo": "https://github.com/pr0-dev/Discord-Bot.git",
+            "ref": "origin/master"
+        }
+    ]
+}
