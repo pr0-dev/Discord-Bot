@@ -74,6 +74,7 @@ const performLogin = function(user, pass, cb){
 
             log.done("pr0gramm login erfolgreich");
             fs.writeFileSync(path.resolve("cookie.txt"), res.headers["set-cookie"].join());
+            return cb();
         });
     }
 };
