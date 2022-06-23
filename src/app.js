@@ -77,17 +77,19 @@ client.on("error", err => log.error(err));
 
 log.info("Validiere pr0gramm session...");
 
-login.validSession(isValid => {
-    if (isValid) return log.done("Bereits auf pr0gramm eingeloggt");
+const done = () => client.login(config.auth.bot_token).then(() => {
+    log.done("Token login war erfolgreich!");
+}, (err) => {
+    log.error(`Token login war nicht erfolgreich: "${err}"`);
+    log.error("Schalte wegen falschem Token ab...\n\n");
+    process.exit(1);
+});
 
+login.validSession(isValid => {
+    if (isValid){
+        log.done("Bereits auf pr0gramm eingeloggt");
+        return done();
+    }
     log.warn("Noch nicht auf pr0gramm eingelogt. Versuche login...");
-    login.performLogin(config.pr0api.username, config.pr0api.password, () => {
-        client.login(config.auth.bot_token).then(() => {
-            log.done("Token login war erfolgreich!");
-        }, (err) => {
-            log.error(`Token login war nicht erfolgreich: "${err}"`);
-            log.error("Schalte wegen falschem Token ab...\n\n");
-            process.exit(1);
-        });
-    });
+    login.performLogin(config.pr0api.username, config.pr0api.password, () => done());
 });
