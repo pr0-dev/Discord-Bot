@@ -260,11 +260,7 @@ const createEmbed = function(message, callback){
 
             if (!resData.items[0]) return null;
 
-            const {up} = resData.items[0];
-            const {down} = resData.items[0];
-            const {image} = resData.items[0];
-            const {flags} = resData.items[0];
-            const {user} = resData.items[0];
+            const { up, down, image, flags, user } = resData.items[0];
             const timestamp = resData.items[0].created;
 
             const postLayout = uploadEmbed(message, {
@@ -295,7 +291,7 @@ const createEmbed = function(message, callback){
             const resData = res.body;
             if (resData.error) return log.error(resData.error);
 
-            const {comments} = resData;
+            const { comments } = resData;
 
             for (const comment of comments){
                 if (Number(comment.id) === Number(commentId)){

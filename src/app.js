@@ -42,15 +42,18 @@ client.on("ready", () => {
     client.user?.setActivity(config.bot_settings.bot_status);
 });
 
-client.on("messageCreate", (message) => {
+client.on("messageCreate", message => {
     if (message.author.bot) return;
 
     if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
-        message.channel.sendTyping();
+        message.channel.sendTyping().catch(e => log.error(e));
         embedHandler.createEmbed(
             /** @type { import("discord.js").Message & { channel: import("discord.js").GuildChannel }} */ (message),
-            (err, { embed, files }) => {
+            (err, data) => {
+                if (!data.embed) return;
                 if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
+
+                const { embed, files } = data;
 
                 message.channel.send({ embeds: [embed], files }).catch(error => {
                     log.error(`Konnte Embed nicht erstellen: ${error}`);
@@ -66,16 +69,15 @@ client.on("messageCreate", (message) => {
     }
 });
 
-client.on("error", (err) => log.error(err));
+client.on("error", err => log.error(err));
 
 log.info("Validiere pr0gramm session...");
 
-login.validSession((isValid) => {
-    if (isValid) log.done("Bereits auf pr0gramm eingeloggt");
-    else {
-        log.warn("Noch nicht auf pr0gramm eingelogt. Versuche login...");
-        login.performLogin(config.pr0api.username, config.pr0api.password);
-    }
+login.validSession(isValid => {
+    if (isValid) return log.done("Bereits auf pr0gramm eingeloggt");
+
+    log.warn("Noch nicht auf pr0gramm eingelogt. Versuche login...");
+    login.performLogin(config.pr0api.username, config.pr0api.password);
 });
 
 log.info("Versuche Token login...");
