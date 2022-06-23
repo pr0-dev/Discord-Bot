@@ -46,6 +46,10 @@ client.on("messageCreate", message => {
     if (message.author.bot) return;
 
     if (message.content.startsWith("http") && message.content.match(/\bpr0gramm.com\//i)){
+        if ( // @ts-ignore
+            !(message.channel).permissionsFor(message.guild.me).toArray().includes("SEND_MESSAGES")
+        ) return;
+
         message.channel.sendTyping().catch(e => log.error(e));
         embedHandler.createEmbed(
             /** @type { import("discord.js").Message & { channel: import("discord.js").GuildChannel }} */ (message),
