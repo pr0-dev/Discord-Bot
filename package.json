@@ -1,6 +1,6 @@
 {
   "name": "pr0-discord-bot",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "pr0gramm Discord Bot",
   "main": "./src/app.js",
   "scripts": {
