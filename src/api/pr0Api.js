@@ -156,25 +156,37 @@ const getUser = function(username, callback){
     });
 };
 
+const getCaptcha = function(callback){
+    performRequest("GET", `https://pr0gramm.com/api/user/captcha?bust=${Math.random()}`, {}, {}, {}, (err, res) => {
+        if (err){
+            log.error(err);
+            return callback(err);
+        }
+        return callback(null, res);
+    });
+};
+
 // POST Requests
 
 /**
  * login to pr0gramm.com
  *
- * @param {string} user
- * @param {string} pass
+ * @param {Object} data
  * @param {Function} callback
  * @returns {any} callback
  */
-const postLogin = function(user, pass, callback){
+const postLogin = function(data, callback){
     const headers = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
 
     const formData = {
-        name: user,
-        password: pass
+        name: data.user,
+        password: data.pass
     };
+
+    if (!!data.token) formData.token = data.token;
+    if (!!data.captcha) formData.captcha = data.captcha;
 
     performRequest("POST", "https://pr0gramm.com/api/user/login", {}, headers, formData, (err, res) => {
         if (err){
@@ -192,6 +204,7 @@ module.exports = {
     getPost,
     getPostMeta,
     getUser,
+    getCaptcha,
     // POST
     postLogin
 };
