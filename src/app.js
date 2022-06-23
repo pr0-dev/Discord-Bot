@@ -54,7 +54,7 @@ client.on("messageCreate", message => {
         embedHandler.createEmbed(
             /** @type { import("discord.js").Message & { channel: import("discord.js").GuildChannel }} */ (message),
             (err, data) => {
-                if (!data.embed) return;
+                if (!data?.embed) return;
                 if (err) return log.error(`Konnte Embed nicht erstellen: ${err}`);
 
                 const { embed, files } = data;
