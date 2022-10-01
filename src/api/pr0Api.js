@@ -186,7 +186,7 @@ const postLogin = function(data, callback){
     };
 
     if (!!data.token) formData.token = data.token;
-    if (!!data.captcha) formData.captcha = data.captcha;
+    if (!!data.captchaSolution) formData.captcha = data.captchaSolution;
 
     performRequest("POST", "https://pr0gramm.com/api/user/login", {}, headers, formData, (err, res) => {
         if (err){
