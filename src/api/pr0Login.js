@@ -12,6 +12,7 @@ const path = require("path");
 
 // Dependencies
 const termImg = require("terminal-image");
+const unirest = require("unirest");
 
 // Utils
 const log = require("../utils/logger");
@@ -21,13 +22,32 @@ const config = require("../utils/configHandler").getConfig();
 const api = require("./pr0Api");
 
 /**
+ * Check if the user is a bot
+ *
+ * @returns {Promise<Boolean>}
+ */
+const isUserBot = function(){
+    const req = unirest("GET", `https://pr0gramm.com/api/profile/info?name=${config.pr0api.username}&flags=1`);
+    req.headers({
+        "cache-control": "no-cache",
+        "user-agent": config.pr0api.user_agent || `${config.pr0api.username}/1.1 (${process.platform}; ${process.arch}) NodeJS/${process.version.substring(1)}`
+    });
+    return new Promise(resolve => req.end((res) => {
+        if (res.error) return resolve(false);
+        return resolve(res.body.user.mark === 13);
+    }));
+};
+
+/**
  * Login and stored created cookie
  *
  * @param {string} user
  * @param {string} pass
  */
-const performLogin = function(user, pass, cb){
-    if (!config.pr0api.userbot){
+const performLogin = async function(user, pass, cb){
+    const userBot = await isUserBot();
+    log.info("User-Bot: " + userBot);
+    if (!userBot){
         api.getCaptcha(async(err, res) => {
             if (err){
                 log.error("Konnte captcha nicht abfragen: " + err);
