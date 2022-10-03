@@ -45,6 +45,8 @@ $ `npm install`<br><br>
 6. Das Script starten <br>
 $ `npm start` <br><br>
 
+**Wichtig:** Wenn du keinen Nutzer-Bot hast, wird beim ersten Login im Terminal ein Captcha abgefragt! Stelle sicher, dass du zugriff auf die Konsole hast (falls du es z.B in Docker startest) und dass dein Terminal mindestens 255 Farben unterstützt! 
+
 <hr>
 
 ## :nut_and_bolt: Konfiguration
