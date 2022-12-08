@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "discord.js": "^13.8.1",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "terminal-image": "^1.2.1",
     "unirest": "^0.6.0"
   },
