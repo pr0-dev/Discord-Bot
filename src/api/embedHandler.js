@@ -67,10 +67,11 @@ const getRank = function(id){
  * Creates the Post embed based on fetched data
  *
  * @param {import("discord.js").Message & { channel: import("discord.js").GuildChannel }} message
+ * @param {string} url
  * @param {Object} post
  * @returns embed
  */
-const uploadEmbed = function(message, post){
+const uploadEmbed = function(message, url, post){
     let tag = "";
 
     if (post.flags === 1) tag = "SFW";
@@ -93,7 +94,7 @@ const uploadEmbed = function(message, post){
         embed: {
             color: orange,
             title: "Link zum Hochlad",
-            url: message.content,
+            url,
             fields: [
                 {
                     name: "Benis",
@@ -139,15 +140,16 @@ const uploadEmbed = function(message, post){
  * Creates the comment embed based on fetched data
  *
  * @param {import("discord.js").Message} message
+ * @param {string} url
  * @param {Object} data
  * @returns embed
  */
-const commentEmbed = function(message, data){
+const commentEmbed = function(message, url, data){
     const embed = {
         embed: {
             color: orange,
             title: "Link zum Comment",
-            url: message.content,
+            url,
             fields: [
                 {
                     name: "Kommentar",
@@ -194,15 +196,16 @@ const commentEmbed = function(message, data){
  * Creates the user embed based on fetched data
  *
  * @param {import("discord.js").Message} message
+ * @param {string} url
  * @param {Object} data
  * @returns
  */
-const userEmbed = function(message, data){
+const userEmbed = function(message, url, data){
     const embed = {
         embed: {
             color: orange,
             title: data.user.name,
-            url: message.content,
+            url,
             fields: [
                 {
                     name: "Benis",
@@ -249,14 +252,22 @@ const userEmbed = function(message, data){
  * @returns
  */
 const createEmbed = function(message, callback){
-    if (!Object.values(regexes).some(regex => message.content.match(regex))){
+    const matches = {
+        direct: message.content.match(regexes.directsRegex),
+        upload: message.content.match(regexes.uploadsRegex),
+        comment: message.content.match(regexes.commentRegex),
+        userInf: message.content.match(regexes.userInfRegex),
+    };
+
+    if (!Object.values(matches).some(match => match)){
         return callback("Kein Regex hat gematched");
     }
 
     message.channel.sendTyping().catch(e => log.error(e));
 
-    if (config.bot_settings.embed_direct_links && (message.content).match(regexes.directsRegex)){
-        const query = (message.content).replace(/http(?:s?):\/\/(?:vid|img|images|videos)\.pr0gramm\.com\//gi, "");
+    if (config.bot_settings.embed_direct_links && matches.direct){
+        const firstMatch = matches.direct[0];
+        const query = firstMatch.replace(/http(?:s?):\/\/(?:vid|img|images|videos)\.pr0gramm\.com\//gi, "");
 
         api.reverseSearch(query, (err, res) => {
             if (err) return log.error(err);
@@ -269,7 +280,7 @@ const createEmbed = function(message, callback){
             const { up, down, image, flags, user } = resData.items[0];
             const timestamp = resData.items[0].created;
 
-            const postLayout = uploadEmbed(message, {
+            const postLayout = uploadEmbed(message, firstMatch, {
                 up,
                 down,
                 image,
@@ -283,8 +294,9 @@ const createEmbed = function(message, callback){
         if (!config.bot_settings.delete_user_message) message.delete().catch();
     }
 
-    else if ((message.content).match(regexes.commentRegex)){
-        const match = (regexes.commentRegex).exec(message.content);
+    else if (matches.comment){
+        const firstMatch = matches.comment[0];
+        const match = (regexes.commentRegex).exec(firstMatch);
 
         // Access Regex Groups
         const postId = match?.[1];
@@ -308,7 +320,7 @@ const createEmbed = function(message, callback){
                     const {name} = comment;
                     const timestamp = comment.created;
 
-                    const embedLayout = commentEmbed(message, {
+                    const embedLayout = commentEmbed(message, firstMatch, {
                         content,
                         up,
                         down,
@@ -322,8 +334,9 @@ const createEmbed = function(message, callback){
         });
     }
 
-    else if ((message.content).match(regexes.uploadsRegex)){
-        const match = (regexes.uploadsRegex).exec(message.content);
+    else if (matches.upload){
+        const firstMatch = matches.upload[0];
+        const match = (regexes.uploadsRegex).exec(firstMatch);
         const postId = match?.[1];
 
         if (!postId) return null;
@@ -341,7 +354,7 @@ const createEmbed = function(message, callback){
             const {user} = resData.items[0];
             const timestamp = resData.items[0].created;
 
-            const postLayout = uploadEmbed(message, {
+            const postLayout = uploadEmbed(message, firstMatch, {
                 up,
                 down,
                 image,
@@ -354,8 +367,9 @@ const createEmbed = function(message, callback){
         });
     }
 
-    else if ((message.content).match(regexes.userInfRegex)){
-        const match = (regexes.userInfRegex).exec(message.content);
+    else if (matches.userInf){
+        const firstMatch = matches.userInf[0];
+        const match = (regexes.userInfRegex).exec(firstMatch);
         const username = match?.[1];
 
         if (!username) return null;
@@ -366,7 +380,7 @@ const createEmbed = function(message, callback){
             const resData = res.body;
             if (resData.error) return log.error(resData.error);
 
-            const userLayout = userEmbed(message, resData);
+            const userLayout = userEmbed(message, firstMatch, resData);
 
             callback(null, userLayout);
         });
