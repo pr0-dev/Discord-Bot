@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./src/app.js",
     "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
     "dev": "npm run lint && npm start"
   },
   "repository": {
