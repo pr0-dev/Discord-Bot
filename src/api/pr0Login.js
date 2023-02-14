@@ -30,7 +30,7 @@ const isUserBot = function(){
     const req = unirest("GET", `https://pr0gramm.com/api/profile/info?name=${config.pr0api.username}&flags=1`);
     req.headers({
         "cache-control": "no-cache",
-        "user-agent": config.pr0api.user_agent || `${config.pr0api.username}/1.1 (${process.platform}; ${process.arch}) NodeJS/${process.version.substring(1)}`
+        "user-agent": config.pr0api.user_agent || `${config.pr0api.username}/1.1 (${process.platform}; ${process.arch}) NodeJS/${process.version.substring(1)}`,
     });
     return new Promise(resolve => req.end((res) => {
         if (res.error) return resolve(false);
@@ -60,7 +60,7 @@ const performLogin = async function(user, pass, cb){
             const buffer = Buffer.from(captcha.replace(/^data:image\/png;base64,/, ""), "base64");
             console.log(
                 "\n" +
-                await termImg.buffer(buffer, { width: 70, height: 50, preserveAspectRatio: true })
+                await termImg.buffer(buffer, { width: 70, height: 50, preserveAspectRatio: true }),
             );
 
             const captchaSolution = await new Promise(resolve => {
@@ -114,5 +114,5 @@ const validSession = function(callback){
 
 module.exports = {
     performLogin,
-    validSession
+    validSession,
 };
