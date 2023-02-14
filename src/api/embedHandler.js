@@ -249,12 +249,9 @@ const userEmbed = function(message, data){
  * @returns
  */
 const createEmbed = function(message, callback){
-    if (
-        !((message.content).match(regexes.directsRegex))
-        && !((message.content).match(regexes.commentRegex))
-        && !((message.content).match(regexes.uploadsRegex))
-        && !((message.content).match(regexes.userInfRegex))
-    ) return callback("Kein Regex hat gematched");
+    if (!Object.values(regexes).some(regex => message.content.match(regex))){
+        return callback("Kein Regex hat gematched");
+    }
 
     message.channel.sendTyping().catch(e => log.error(e));
 
