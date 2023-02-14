@@ -81,7 +81,7 @@ const getLoginStatus = function(callback){
  */
 const reverseSearch = function(search, callback){
     const query = {
-        tags: "!p:" + search
+        tags: "!p:" + search,
     };
 
     performRequest("GET", "https://pr0gramm.com/api/items/get", query, {}, {}, (err, res) => {
@@ -102,7 +102,7 @@ const reverseSearch = function(search, callback){
  */
 const getPost = function(postId, callback){
     const query = {
-        id: postId
+        id: postId,
     };
 
     performRequest("GET", "https://pr0gramm.com/api/items/get", query, {}, {}, (err, res) => {
@@ -123,7 +123,7 @@ const getPost = function(postId, callback){
  */
 const getPostMeta = function(postId, callback){
     const query = {
-        itemId: postId
+        itemId: postId,
     };
 
     performRequest("GET", "https://pr0gramm.com/api/items/info", query, {}, {}, (err, res) => {
@@ -144,7 +144,7 @@ const getPostMeta = function(postId, callback){
  */
 const getUser = function(username, callback){
     const query = {
-        name: username
+        name: username,
     };
 
     performRequest("GET", "https://pr0gramm.com/api/profile/info", query, {}, {}, (err, res) => {
@@ -177,12 +177,12 @@ const getCaptcha = function(callback){
  */
 const postLogin = function(data, callback){
     const headers = {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
     };
 
     const formData = {
         name: data.user,
-        password: data.pass
+        password: data.pass,
     };
 
     if (!!data.token) formData.token = data.token;
@@ -206,5 +206,5 @@ module.exports = {
     getUser,
     getCaptcha,
     // POST
-    postLogin
+    postLogin,
 };

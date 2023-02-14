@@ -37,5 +37,5 @@ module.exports = {
 
     done(input){
         console.log(" \x1b[42m\x1b[30m ✓ \x1b[0m\x1b[32m [DONE]  " + getDate() + " - " + input + "\x1b[0m");
-    }
+    },
 };

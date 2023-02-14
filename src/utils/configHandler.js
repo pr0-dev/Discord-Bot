@@ -67,5 +67,5 @@ const getName = function(){
 module.exports = {
     getConfig,
     getVersion,
-    getName
+    getName,
 };
