@@ -27,7 +27,7 @@ console.log(
     "\n" +
     " #" + "-".repeat(14 + appname.length + version.toString().length) + "#\n" +
     " # " + appname + " v" + version + " gestartet #\n" +
-    " #" + "-".repeat(14 + appname.length + version.toString().length) + "#\n"
+    " #" + "-".repeat(14 + appname.length + version.toString().length) + "#\n",
 );
 
 log.info(`Starte ${appname}...`);
@@ -50,7 +50,6 @@ client.on("messageCreate", message => {
             !(message.channel).permissionsFor(message.guild.me).toArray().includes("SEND_MESSAGES")
         ) return;
 
-        message.channel.sendTyping().catch(e => log.error(e));
         embedHandler.createEmbed(
             /** @type { import("discord.js").Message & { channel: import("discord.js").GuildChannel }} */ (message),
             (err, data) => {
@@ -68,7 +67,7 @@ client.on("messageCreate", message => {
                 });
 
                 if (config.bot_settings.delete_user_message) message.delete().catch();
-            }
+            },
         );
     }
 });

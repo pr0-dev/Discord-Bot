@@ -20,10 +20,10 @@ const log = require("../utils/logger");
 const config = require("../utils/configHandler").getConfig();
 
 const regexes = {
-    directsRegex: /http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\/([0-9]{1,4})\/([0-9]{1,2})\/([0-9]{1,2})\/(\w+)\.(\w+)/gi,
+    directsRegex: /http(?:s?):\/\/(?:vid|img|images|videos)\.pr0gramm\.com\/([0-9]{1,4})\/([0-9]{1,2})\/([0-9]{1,2})\/(\w+)\.(\w+)/gi,
     uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)/gi,
     commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
-    userInfRegex: /http(?:s?):\/\/pr0gramm\.com\/user\/(\w+)/gi
+    userInfRegex: /http(?:s?):\/\/pr0gramm\.com\/user\/(\w+)/gi,
 };
 
 moment.locale("de");
@@ -98,38 +98,38 @@ const uploadEmbed = function(message, post){
                 {
                     name: "Benis",
                     value: String(post.up - post.down),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Up",
                     value: String(post.up),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Down",
                     value: String(post.down),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Hochgeladen",
                     value: String(moment.unix(post.timestamp).fromNow()),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Von",
                     value: `[${post.user}](http://pr0gramm.com/user/${post.user})`,
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Tag",
                     value: String(tag),
-                    inline: true
-                }
-            ]
+                    inline: true,
+                },
+            ],
         },
         files: [
-            preview
-        ]
+            preview,
+        ],
     };
 
     return embed;
@@ -151,40 +151,40 @@ const commentEmbed = function(message, data){
             fields: [
                 {
                     name: "Kommentar",
-                    value: String(data.content)
+                    value: String(data.content),
                 },
                 {
                     name: "Benis",
                     value: String(data.up - data.down),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Up",
                     value: String(data.up),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Down",
                     value: String(data.down),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Kommentiert",
                     value: String(moment.unix(data.timestamp).fromNow()),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Von",
                     value: `[${data.name}](http://pr0gramm.com/user/${data.name})`,
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Auf",
                     value: "[pr0gramm.com](http://pr0gramm.com)",
-                    inline: true
-                }
-            ]
-        }
+                    inline: true,
+                },
+            ],
+        },
     };
 
     return embed;
@@ -207,35 +207,35 @@ const userEmbed = function(message, data){
                 {
                     name: "Benis",
                     value: String(data.user.score),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Rang",
                     value: getRank(data.user.mark),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Registriert",
                     value: String(moment.unix(data.user.registered).fromNow()),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Uploads",
                     value: String(data.uploadCount),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Kommentare",
                     value: String(data.commentCount),
-                    inline: true
+                    inline: true,
                 },
                 {
                     name: "Tags",
                     value: String(data.tagCount),
-                    inline: true
-                }
-            ]
-        }
+                    inline: true,
+                },
+            ],
+        },
     };
 
     return embed;
@@ -249,8 +249,17 @@ const userEmbed = function(message, data){
  * @returns
  */
 const createEmbed = function(message, callback){
+    if (
+        !((message.content).match(regexes.directsRegex))
+        && !((message.content).match(regexes.commentRegex))
+        && !((message.content).match(regexes.uploadsRegex))
+        && !((message.content).match(regexes.userInfRegex))
+    ) return callback("Kein Regex hat gematched");
+
+    message.channel.sendTyping().catch(e => log.error(e));
+
     if (config.bot_settings.embed_direct_links && (message.content).match(regexes.directsRegex)){
-        const query = (message.content).replace(/http(?:s?):\/\/(?:vid|img)\.pr0gramm\.com\//gi, "");
+        const query = (message.content).replace(/http(?:s?):\/\/(?:vid|img|images|videos)\.pr0gramm\.com\//gi, "");
 
         api.reverseSearch(query, (err, res) => {
             if (err) return log.error(err);
@@ -269,11 +278,12 @@ const createEmbed = function(message, callback){
                 image,
                 flags,
                 user,
-                timestamp
+                timestamp,
             });
 
             return callback(null, postLayout);
         });
+        if (!config.bot_settings.delete_user_message) message.delete().catch();
     }
 
     else if ((message.content).match(regexes.commentRegex)){
@@ -306,7 +316,7 @@ const createEmbed = function(message, callback){
                         up,
                         down,
                         name,
-                        timestamp
+                        timestamp,
                     });
 
                     callback(null, embedLayout);
@@ -340,7 +350,7 @@ const createEmbed = function(message, callback){
                 image,
                 flags,
                 user,
-                timestamp
+                timestamp,
             });
 
             callback(null, postLayout);
@@ -365,9 +375,9 @@ const createEmbed = function(message, callback){
         });
     }
 
-    else return callback("Kein Regex hat gematched");
+    // else return callback("Kein Regex hat gematched");
 };
 
 module.exports = {
-    createEmbed
+    createEmbed,
 };
