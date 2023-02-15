@@ -63,5 +63,6 @@ Wenn die Konfigurationsdatei wie bei [Schritt 4](#wrench-installation) kopiert w
 | bot_settings: <br> `embed_direct_links` | Legt fest, ob direkte pr0gramm Links ebenfalls eingebettet werden sollen (kann sehr noisy sein). | Boolean | false |
 | pr0api: <br> `username` | Der pr0gramm Username, der für das Anzeigen von NSFW/NSFL/NSFP benutzt wird. | String | N/A |
 | pr0api: <br> `password` | Das zum pr0gramm username zugehörige Passwort. | String | N/A |
+| pr0api: <br> `user_agent` | Name des Bots + Info. Beispiel: `Shad0wBot/1.1 (Debian 4.19.181-1; GNU/Linux; x86_64) NodeJS/15.11.0` | String | N/A |
 
 <hr>
