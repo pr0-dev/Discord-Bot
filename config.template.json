@@ -12,6 +12,7 @@
     "pr0api": {
         "username": "",
         "password": "",
-        "user_agent": ""
+        "user_agent": "",
+        "userbot": false
     }
 }
