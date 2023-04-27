@@ -1,5 +1,3 @@
-"use strict";
-
 // =========================== //
 // = Copyright (c) TheShad0w = //
 // =========================== //
@@ -22,7 +20,7 @@ const getDate = function(){
     return "[" + hour + ":" + min + ":" + sec + "]";
 };
 
-module.exports = {
+export default {
     error(input){
         console.log(" \x1b[41m\x1b[30m x \x1b[0m\x1b[31m [ERROR] " + getDate() + " - " + input + "\x1b[0m");
     },

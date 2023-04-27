@@ -1,23 +1,14 @@
-"use strict";
-
 // =========================== //
 // = Copyright (c) TheShad0w = //
 // =========================== //
 
 /* eslint-disable consistent-return */
 
-// Core Modukes
-const path = require("path");
-
-// Dependencies
-const moment = require("moment");
-
-// API
-const api = require("./pr0Api");
-
-// Utils
-const log = require("../utils/logger");
-const config = require("../utils/configHandler").getConfig();
+import path from "node:path";
+import moment from "moment";
+import api from "./pr0Api.js";
+import { config } from "../../config.base.js";
+import log from "../utils/logger.js";
 
 const regexes = {
     directsRegex: /http(?:s?):\/\/(?:vid|img|images|videos)\.pr0gramm\.com\/([0-9]{1,4})\/([0-9]{1,2})\/([0-9]{1,2})\/(\w+)\.(\w+)/gi,
@@ -389,6 +380,6 @@ const createEmbed = function(message, callback){
     // else return callback("Kein Regex hat gematched");
 };
 
-module.exports = {
+export default {
     createEmbed,
 };

@@ -1,25 +1,16 @@
-"use strict";
-
 // =========================== //
 // = Copyright (c) TheShad0w = //
 // =========================== //
 
 /* eslint-disable consistent-return */
 
-// Core Modules
-const fs = require("fs");
-const path = require("path");
-
-// Dependencies
-const termImg = require("terminal-image");
-const unirest = require("unirest");
-
-// Utils
-const log = require("../utils/logger");
-const config = require("../utils/configHandler").getConfig();
-
-// API
-const api = require("./pr0Api");
+import fs from "node:fs";
+import path from "node:path";
+import unirest from "unirest";
+import * as termImg from "terminal-image";
+import log from "../utils/logger.js";
+import { config } from "../../config.base.js";
+import api from "./pr0Api.js";
 
 /**
  * Check if the user is a bot
@@ -112,7 +103,7 @@ const validSession = function(callback){
     });
 };
 
-module.exports = {
+export default {
     performLogin,
     validSession,
 };

@@ -1,21 +1,13 @@
-"use strict";
-
 // =========================== //
 // = Copyright (c) TheShad0w = //
 // =========================== //
 
 // Core Modules
-const fs = require("fs");
-const path = require("path");
-
-// Dependencies
-const unirest = require("unirest");
-
-// Utils
-const log = require("../utils/logger");
-const config = require("../utils/configHandler").getConfig();
-
-// Helper Functions
+import fs from "node:fs";
+import path from "node:path";
+import unirest from "unirest";
+import log from "../utils/logger.js";
+import { config } from "../../config.base.js";
 
 const cookiePath = path.join("cookie.txt");
 
@@ -197,7 +189,7 @@ const postLogin = function(data, callback){
     });
 };
 
-module.exports = {
+export default {
     // GEGT
     getLoginStatus,
     reverseSearch,
