@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "pr0gramm Discord Bot",
   "main": "./src/app.js",
+  "type": "module",
   "scripts": {
     "start": "node ./src/app.js",
     "lint": "eslint ./src",
@@ -20,14 +21,14 @@
   "author": "TheShad0w",
   "license": "Apache-2.0",
   "dependencies": {
-    "discord.js": "^13.8.1",
+    "discord.js": "^14.9.0",
     "moment": "^2.29.4",
-    "terminal-image": "^1.2.1",
+    "terminal-image": "^1.0.0",
     "unirest": "^0.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
-    "@babel/eslint-parser": "^7.18.2",
-    "eslint": "^8.18.0"
+    "@babel/core": "^7.21.4",
+    "@babel/eslint-parser": "^7.21.3",
+    "eslint": "^8.39.0"
   }
 }
