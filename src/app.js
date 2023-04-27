@@ -1,27 +1,25 @@
-"use strict";
-
 // =========================== //
 // = Copyright (c) TheShad0w = //
 // =========================== //
 
 /* eslint-disable consistent-return */
 
-// Dependencies
-const { Client, Intents } = require("discord.js");
+import { Client, GatewayIntentBits } from "discord.js";
+import embedHandler from "./api/embedHandler.js";
+import login from "./api/pr0Login.js";
+import { config, meta } from "../config.base.js";
+import log from "./utils/logger.js";
 
-// API
-const embedHandler = require("./api/embedHandler");
-const login = require("./api/pr0Login");
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+    ],
+});
 
-// Utils
-const conf = require("./utils/configHandler");
-const log = require("./utils/logger");
-
-const intents = new Intents(33281); // @ts-ignore
-const client = new Client({ intents });
-
-const appname = conf.getName();
-const version = conf.getVersion();
+const appname = meta.getName();
+const version = meta.getVersion();
 
 console.log(
     "\n" +
@@ -31,7 +29,6 @@ console.log(
 );
 
 log.info(`Starte ${appname}...`);
-const config = conf.getConfig();
 
 process.on("unhandledRejection", (err, promise) => {
     log.error("Unhandled rejection (promise: " + JSON.stringify(promise) + ", reason: " + err + ")");
