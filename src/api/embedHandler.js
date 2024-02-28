@@ -63,6 +63,17 @@ const getRank = function(id){
     }
 };
 
+const getFlagRepresentation = function(flag){
+    switch (flag){
+        case 1: return "SFW";
+        case 2: return "NSFW";
+        case 4: return "NSFL";
+        case 8: return "NSFP";
+        case 16: return "POL";
+        default: return "Unbekannt";
+    }
+};
+
 /**
  * Creates the Post embed based on fetched data
  *
@@ -72,13 +83,7 @@ const getRank = function(id){
  * @returns embed
  */
 const uploadEmbed = function(message, url, post){
-    let tag = "";
-
-    if (post.flags === 1) tag = "SFW";
-    else if (post.flags === 2) tag = "NSFW";
-    else if (post.flags === 4) tag = "NSFL";
-    else if (post.flags === 8) tag = "NSFP";
-    else if (post.flags === 16) tag = "POL";
+    const tag = getFlagRepresentation(post.flags);
 
     let preview = imgUri + post.image;
 
