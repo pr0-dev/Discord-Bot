@@ -14,9 +14,9 @@ const moment = require("moment");
 
 // API
 const api = require("./pr0Api");
-const flagHelper = require("../utils/flagHelper");
 
 // Utils
+const flagHelper = require("../utils/flagHelper");
 const log = require("../utils/logger");
 const config = require("../utils/configHandler").getConfig();
 
