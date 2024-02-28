@@ -38,7 +38,7 @@ const performRequest = function(method, endpoint, params = {}, headers = {}, for
 
     /* eslint-disable dot-notation */
 
-    params["flags"] = flagHelper.ALL_FLAGS;
+    params["flags"] = String(flagHelper.ALL_FLAGS);
 
     headers["cache-control"] = "no-cache";
     headers["cookie"] = String(cookieFile);
