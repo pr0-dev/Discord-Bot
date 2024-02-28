@@ -16,7 +16,7 @@ const log = require("../utils/logger");
 const config = require("../utils/configHandler").getConfig();
 
 // Helper Functions
-
+const flagHelper = require("../utils/flagHelper");
 const cookiePath = path.join("cookie.txt");
 
 /**
@@ -38,7 +38,7 @@ const performRequest = function(method, endpoint, params = {}, headers = {}, for
 
     /* eslint-disable dot-notation */
 
-    params["flags"] = "15";
+    params["flags"] = flagHelper.ALL_FLAGS;
 
     headers["cache-control"] = "no-cache";
     headers["cookie"] = String(cookieFile);

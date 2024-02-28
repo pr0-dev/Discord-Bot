@@ -14,6 +14,7 @@ const moment = require("moment");
 
 // API
 const api = require("./pr0Api");
+const flagHelper = require("../utils/flagHelper");
 
 // Utils
 const log = require("../utils/logger");
@@ -72,12 +73,7 @@ const getRank = function(id){
  * @returns embed
  */
 const uploadEmbed = function(message, url, post){
-    let tag = "";
-
-    if (post.flags === 1) tag = "SFW";
-    else if (post.flags === 2) tag = "NSFW";
-    else if (post.flags === 4) tag = "NSFL";
-    else if (post.flags === 8) tag = "NSFP";
+    const tag = flagHelper.getFlagRepresentation(post.flags);
 
     let preview = imgUri + post.image;
 
