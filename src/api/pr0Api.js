@@ -38,7 +38,7 @@ const performRequest = function(method, endpoint, params = {}, headers = {}, for
 
     /* eslint-disable dot-notation */
 
-    params["flags"] = "15";
+    params["flags"] = "31";
 
     headers["cache-control"] = "no-cache";
     headers["cookie"] = String(cookieFile);

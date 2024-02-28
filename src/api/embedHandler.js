@@ -78,6 +78,7 @@ const uploadEmbed = function(message, url, post){
     else if (post.flags === 2) tag = "NSFW";
     else if (post.flags === 4) tag = "NSFL";
     else if (post.flags === 8) tag = "NSFP";
+    else if (post.flags === 16) tag = "POL";
 
     let preview = imgUri + post.image;
 
