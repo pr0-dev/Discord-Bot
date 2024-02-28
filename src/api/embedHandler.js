@@ -14,6 +14,7 @@ const moment = require("moment");
 
 // API
 const api = require("./pr0Api");
+const flagHelper = require("../utils/flagHelper");
 
 // Utils
 const log = require("../utils/logger");
@@ -63,17 +64,6 @@ const getRank = function(id){
     }
 };
 
-const getFlagRepresentation = function(flag){
-    switch (flag){
-        case 1: return "SFW";
-        case 2: return "NSFW";
-        case 4: return "NSFL";
-        case 8: return "NSFP";
-        case 16: return "POL";
-        default: return "Unbekannt";
-    }
-};
-
 /**
  * Creates the Post embed based on fetched data
  *
@@ -83,7 +73,7 @@ const getFlagRepresentation = function(flag){
  * @returns embed
  */
 const uploadEmbed = function(message, url, post){
-    const tag = getFlagRepresentation(post.flags);
+    const tag = flagHelper.getFlagRepresentation(post.flags);
 
     let preview = imgUri + post.image;
 
