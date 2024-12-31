@@ -22,8 +22,8 @@ const config = require("../utils/configHandler").getConfig();
 
 const regexes = {
     directsRegex: /http(?:s?):\/\/(?:vid|img|images|videos)\.pr0gramm\.com\/([0-9]{1,4})\/([0-9]{1,2})\/([0-9]{1,2})\/(\w+)\.(\w+)/gi,
-    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)/gi,
-    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
+    uploadsRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user|junk\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)/gi,
+    commentRegex: /http(?:s?):\/\/pr0gramm\.com\/(?:top|new|user|junk\/\w+\/(?:uploads|likes)|stalk)(?:(?:\/[\w\(\)\-\%\!\.\_\[\]\@\:\$\#\&\'\:\?\*\+\,\;\=\~]+)?)\/(\d+)(?:(?::)comment(\d+))/gi,
     userInfRegex: /http(?:s?):\/\/pr0gramm\.com\/user\/(\w+)/gi,
 };
 
