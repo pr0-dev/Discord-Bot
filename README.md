@@ -12,7 +12,7 @@ Dieser Bot erlaubt es dir, im Discord verlinkte pr0gramm Uploads, User und Komme
 
 ## ⚠️ 8-ung
 Achtung, nicht mehr offiziell maintained. <br>
-Wenn du willst, dass die neuen links unterstützt werden (`pr0.app`), oder dass das User Embed auch die tollen neuen Profilbilder anzeigt, oder mal diese uralte Discord.JS Version upgraden will (bei der ich keine Ahnung habe wie die überhaupt noch läuft), **dann kannst du gerne eine PR aufmachen.**
+Wenn du willst, dass die neuen links unterstützt werden (`pr0.app`), oder dass das User Embed auch die tollen neuen Profilbilder anzeigt, oder mal diese uralte Discord.JS Version upgraden willst (bei der ich keine Ahnung habe, wie die überhaupt noch läuft), **dann kannst du gerne eine PR aufmachen.**
 PRs guck ich mir noch an, und hosten werd ich den bot auch noch. Features baue ich allerdings keine mehr.
 
 <hr>
